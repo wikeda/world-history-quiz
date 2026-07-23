@@ -3,6 +3,7 @@ import { useAppData } from '../state/AppDataContext';
 import { useQuestions } from '../hooks/useQuestions';
 import { countStates, masteryPct } from '../domain/aggregate';
 import { Confetti } from '../components/Confetti';
+import { StackedBarChart } from '../components/StackedBarChart';
 
 interface ResultState {
   chapter: string; mode: string; total: number;
@@ -23,6 +24,8 @@ export function ResultScreen() {
   const delta = afterPct - st.beforePct;
   const streakUp = data.streak.current - st.streakBefore;
   const title = isAll ? 'あやふや復習' : st.chapter;
+  const rounds = isAll ? [] : (data.chapterRounds[st.chapter] ?? []);
+  const chapterTotal = isAll ? 0 : questions.filter((q) => q.chapter === st.chapter).length;
 
   return (
     <div style={{ minHeight: '100vh', position: 'relative', padding: '34px 22px 110px', textAlign: 'center' }}>
@@ -49,10 +52,14 @@ export function ResultScreen() {
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 4 }}>
             <span style={{ fontSize: 14, color: '#9bbfa6' }}>{st.beforePct}<span style={{ fontSize: 9 }}>%</span></span>
             <span style={{ color: '#9bbfa6' }}>→</span>
-            <span style={{ fontSize: 18, fontWeight: 800, color: '#3f9e5a' }}>{afterPct}<span style={{ fontSize: 10 }}>%</span></span>
-            {delta > 0 && <span style={{ fontSize: 12, fontWeight: 700, color: '#1f9d4d' }}>+{delta}%</span>}
+            <span style={{ fontSize: 20, fontWeight: 800, color: '#3f9e5a' }}>{afterPct}<span style={{ fontSize: 11 }}>%</span></span>
+            {delta > 0 && <span style={{ fontSize: 13, fontWeight: 800, color: '#1f9d4d' }}>+{delta}%</span>}
           </div>
-          <div style={{ fontSize: 11, color: '#1f9d4d', fontWeight: 700, marginTop: 4 }}>グラフに記録しました 📈</div>
+          {rounds.length > 0 && (
+            <div style={{ background: 'var(--surface)', borderRadius: 12, padding: '10px 8px 4px', marginTop: 10 }}>
+              <StackedBarChart rounds={rounds} total={chapterTotal} />
+            </div>
+          )}
         </div>
       )}
 

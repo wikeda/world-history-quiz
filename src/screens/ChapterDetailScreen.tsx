@@ -17,36 +17,48 @@ export function ChapterDetailScreen() {
   const complete = pct >= 100;
 
   return (
-    <div style={{ padding: 16, paddingBottom: 120 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100dvh', padding: '18px 16px 140px' }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-        <button onClick={() => nav(-1)} style={{ border: 'none', background: 'none', fontSize: 18, color: 'var(--muted)' }}>‹</button>
+        <button onClick={() => nav(-1)} style={{ border: 'none', background: 'none', fontSize: 20, color: 'var(--muted)', padding: 0, cursor: 'pointer' }}>‹</button>
         <div style={{ flex: 1 }}>
-          <div style={{ fontSize: 16, fontWeight: 800 }}>{chapter}</div>
-          <div style={{ fontSize: 11, color: 'var(--muted)' }}>{total}問</div>
+          <div style={{ fontSize: 18, fontWeight: 800 }}>{chapter}</div>
+          <div style={{ fontSize: 11, color: 'var(--muted)', marginTop: 2 }}>{total}問</div>
         </div>
-        <div style={{ fontWeight: 800, color: complete ? '#b8860b' : '#3f9e5a' }}>
-          {complete ? '🏆 ' : ''}{pct}<span style={{ fontSize: 9, opacity: 0.7 }}>%</span>
+        <div style={{ fontWeight: 800, fontSize: 20, color: complete ? '#b8860b' : '#3f9e5a' }}>
+          {complete ? '🏆 ' : ''}{pct}<span style={{ fontSize: 11, opacity: 0.7 }}>%</span>
         </div>
       </div>
 
-      <div style={{ display: 'flex', gap: 10, fontSize: 10, color: 'var(--muted)', marginTop: 10 }}>
-        <span>🟢 マスター {counts.mastered}</span>
-        <span>🟡 あやふや {counts.unsure}</span>
-        <span>🔴 できなかった {counts.failed}</span>
-        <span>⚪ 未回答 {counts.unanswered}</span>
+      {/* 内訳バー */}
+      <div style={{ marginTop: 14 }}>
+        <div style={{ display: 'flex', height: 8, borderRadius: 5, overflow: 'hidden', background: 'var(--border)' }}>
+          {counts.mastered > 0 && <div style={{ width: `${(counts.mastered / total) * 100}%`, background: '#3f9e5a' }} />}
+          {counts.unsure > 0 && <div style={{ width: `${(counts.unsure / total) * 100}%`, background: '#e6b800' }} />}
+          {counts.failed > 0 && <div style={{ width: `${(counts.failed / total) * 100}%`, background: '#e5736b' }} />}
+        </div>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, fontSize: 11, color: 'var(--muted)', marginTop: 8 }}>
+          <span>🟢 マスター {counts.mastered}</span>
+          <span>🟡 あやふや {counts.unsure}</span>
+          <span>🔴 できなかった {counts.failed}</span>
+          <span>⚪ 未回答 {counts.unanswered}</span>
+        </div>
       </div>
 
-      <div style={{ background: 'var(--surface)', borderRadius: 16, padding: '14px 12px', marginTop: 14, boxShadow: 'var(--shadow)' }}>
-        <div style={{ fontSize: 12, fontWeight: 700, marginBottom: 6 }}>この章の伸び 📈</div>
-        {rounds.length === 0
-          ? <div style={{ fontSize: 12, color: 'var(--muted)', padding: '20px 0', textAlign: 'center' }}>学習するとここに伸びが記録されます</div>
-          : <StackedBarChart rounds={rounds} total={total} />}
+      {/* グラフ（中央寄せで間延び解消） */}
+      <div style={{ flex: 1, display: 'flex', alignItems: 'center', marginTop: 16 }}>
+        <div style={{ width: '100%', background: 'var(--surface)', borderRadius: 18, padding: '18px 14px', boxShadow: 'var(--shadow)' }}>
+          <div style={{ fontSize: 13, fontWeight: 800, marginBottom: 10 }}>この章の伸び 📈</div>
+          {rounds.length === 0
+            ? <div style={{ fontSize: 12, color: 'var(--muted)', padding: '28px 0', textAlign: 'center' }}>学習するとここに伸びが記録されます</div>
+            : <StackedBarChart rounds={rounds} total={total} />}
+        </div>
       </div>
 
+      {/* アクション（最下部固定・他画面と整合） */}
       <div style={{ position: 'fixed', bottom: 18, left: 16, right: 16, maxWidth: 448, margin: '0 auto' }}>
         {counts.unsure > 0 && (
           <button onClick={() => nav(`/study/unsure/${encodeURIComponent(chapter)}`)}
-            style={{ width: '100%', background: 'var(--surface)', border: '1px solid #f2e2b0', color: '#c98a00', borderRadius: 14, padding: 11, fontWeight: 800, marginBottom: 10 }}>
+            style={{ width: '100%', background: 'var(--surface)', border: '1px solid #f2e2b0', color: '#c98a00', borderRadius: 14, padding: 12, fontWeight: 800, marginBottom: 10, cursor: 'pointer' }}>
             ⚡ あやふや {counts.unsure}問だけ
           </button>
         )}

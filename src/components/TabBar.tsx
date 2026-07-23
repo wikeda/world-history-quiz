@@ -10,9 +10,9 @@ export function TabBar() {
   return (
     <nav className="tabbar">
       {tabs.map((t) => (
-        <NavLink key={t.to} to={t.to} end={t.to === '/'}
+        <NavLink key={t.to} to={t.to} end={t.to === '/'} aria-label={t.label}
           className={({ isActive }) => (isActive ? 'active' : '')}>
-          <span>{t.icon}</span><span>{t.label}</span>
+          <span>{t.icon}</span>
         </NavLink>
       ))}
     </nav>
