@@ -1,4 +1,4 @@
-import { AppData } from '../domain/types';
+import type { AppData } from '../domain/types';
 import { defaultAppData, DEFAULT_SETTINGS, DATA_VERSION } from './schema';
 
 const KEY = 'whq:data';

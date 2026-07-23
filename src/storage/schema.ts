@@ -1,4 +1,4 @@
-import { AppData, Settings } from '../domain/types';
+import type { AppData, Settings } from '../domain/types';
 import { emptyStreak } from '../domain/streak';
 
 export const DATA_VERSION = 1;

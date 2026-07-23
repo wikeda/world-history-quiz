@@ -1,4 +1,4 @@
-import { Question, QuestionProgress, Counts, MasteryState } from './types';
+import type { Question, QuestionProgress, Counts, MasteryState } from './types';
 
 function stateOf(prog: Record<number, QuestionProgress>, no: number): MasteryState {
   return prog[no]?.state ?? 'unanswered';

@@ -1,4 +1,4 @@
-import { QuestionProgress, SwipeResult, MasterThreshold } from './types';
+import type { QuestionProgress, SwipeResult, MasterThreshold } from './types';
 
 export function initialProgress(no: number): QuestionProgress {
   return { no, state: 'unanswered', knownStreak: 0, lastStudiedAt: null };

@@ -1,4 +1,4 @@
-import { MasteryState } from './types';
+import type { MasteryState } from './types';
 
 export function masteryColor(pct: number): string {
   if (pct >= 100) return '#e3b23c'; // 金

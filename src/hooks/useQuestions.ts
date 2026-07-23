@@ -1,5 +1,5 @@
 import questionsJson from '../data/questions.json';
-import { Question } from '../domain/types';
+import type { Question } from '../domain/types';
 
 const QUESTIONS = questionsJson as Question[];
 

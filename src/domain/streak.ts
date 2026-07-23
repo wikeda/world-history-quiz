@@ -1,4 +1,4 @@
-import { Streak } from './types';
+import type { Streak } from './types';
 
 export function emptyStreak(): Streak {
   return { current: 0, longest: 0, lastStudyDate: null, studyDates: [] };

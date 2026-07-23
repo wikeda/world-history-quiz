@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { buildChapterSession, buildUnsureSession } from './session';
-import { Question, QuestionProgress } from './types';
+import type { Question, QuestionProgress } from './types';
 
 const qs: Question[] = Array.from({ length: 10 }, (_, i) => ({
   no: i + 1, chapter: 'A', question: `q${i + 1}`, answer: 'a',

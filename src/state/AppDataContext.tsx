@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useMemo, useReducer } from 'react';
-import { AppData, Settings, SwipeResult } from '../domain/types';
+import type { AppData, Settings, SwipeResult } from '../domain/types';
 import { loadAppData, saveAppData } from '../storage/storage';
 import { applySwipe, initialProgress } from '../domain/mastery';
 import { recordStudyDay, todayStr } from '../domain/streak';

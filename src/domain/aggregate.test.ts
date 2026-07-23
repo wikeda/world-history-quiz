@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { countStates, masteryPct, overallMastery } from './aggregate';
-import { Question, QuestionProgress } from './types';
+import type { Question, QuestionProgress } from './types';
 
 const qs: Question[] = [
   { no: 1, chapter: 'A', question: 'q', answer: 'a' },
