@@ -63,4 +63,10 @@ describe('buildUnsureSession', () => {
     const s = buildUnsureSession(qs, p, 'A', { order: 'sequential', sessionSize: 0 });
     expect(s.map((q) => q.no).sort()).toEqual([1, 3]);
   });
+
+  it("chapter='all' で全章の unsure", () => {
+    const p = prog({ 1: 'unsure' });
+    const s = buildUnsureSession(qs, p, 'all', { order: 'sequential', sessionSize: 0 });
+    expect(s.map((q) => q.no)).toContain(1);
+  });
 });

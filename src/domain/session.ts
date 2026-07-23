@@ -53,7 +53,8 @@ export function buildUnsureSession(
   opts: UnsureSessionOpts,
 ): Question[] {
   const rng = opts.rng ?? Math.random;
-  const unsure = questions.filter((q) => q.chapter === chapter && stateOf(prog, q.no) === 'unsure');
+  const unsure = questions.filter((q) =>
+    (chapter === 'all' || q.chapter === chapter) && stateOf(prog, q.no) === 'unsure');
   let pool = orderQuestions(unsure, opts.order, rng);
   if (opts.sessionSize > 0) pool = pool.slice(0, opts.sessionSize);
   return pool;
