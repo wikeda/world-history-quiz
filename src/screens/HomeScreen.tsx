@@ -45,11 +45,11 @@ export function HomeScreen() {
           const textColor = pct >= 100 ? '#5a3d00' : pct === 0 ? '#5a6376' : '#fff';
           return (
             <div key={c} onClick={() => nav(`/chapter/${encodeURIComponent(c)}`)}
-              style={{ background: bg, borderRadius: 11, padding: '7px 4px', textAlign: 'center', color: textColor,
-                cursor: 'pointer', minHeight: 56, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+              style={{ background: bg, borderRadius: 11, padding: '8px 4px', textAlign: 'center', color: textColor,
+                cursor: 'pointer', minHeight: 62, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
               <div style={{ fontSize: 8.5, lineHeight: 1.15, opacity: 0.95, wordBreak: 'break-word' }}>{c}</div>
-              <div style={{ fontSize: 13, fontWeight: 800, marginTop: 3 }}>
-                {pct >= 100 ? '🏆' : <>{pct}<span style={{ fontSize: 8, opacity: 0.75 }}>%</span></>}
+              <div style={{ fontSize: 22, fontWeight: 800, marginTop: 3, lineHeight: 1 }}>
+                {pct >= 100 ? '🏆' : <>{pct}<span style={{ fontSize: 11, opacity: 0.75 }}>%</span></>}
               </div>
             </div>
           );

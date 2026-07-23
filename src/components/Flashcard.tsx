@@ -60,11 +60,14 @@ export function Flashcard({ question, onJudge }: Props) {
         touchAction: 'none', userSelect: 'none',
         background: 'var(--surface)', borderRadius: 22, padding: '26px 20px',
         boxShadow: '0 8px 24px rgba(0,0,0,.15)',
+        minHeight: 340, display: 'flex', flexDirection: 'column',
       }}
     >
-      <div style={{ fontSize: 10, letterSpacing: '.08em', color: 'var(--muted)' }}>問題</div>
-      <div style={{ fontSize: 17, lineHeight: 1.6, marginTop: 8 }}>{question.question}</div>
-      <div style={{ marginTop: 20, borderTop: '1px dashed var(--border)', paddingTop: 16 }}>
+      <div>
+        <div style={{ fontSize: 10, letterSpacing: '.08em', color: 'var(--muted)' }}>問題</div>
+        <div style={{ fontSize: 17, lineHeight: 1.6, marginTop: 8 }}>{question.question}</div>
+      </div>
+      <div style={{ marginTop: 'auto', paddingTop: 20, borderTop: '1px dashed var(--border)' }}>
         <div style={{ fontSize: 10, letterSpacing: '.08em', color: 'var(--muted)' }}>解答</div>
         <div style={{
           fontSize: 24, fontWeight: 700, marginTop: 6, color: 'var(--accent)',
