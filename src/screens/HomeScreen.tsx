@@ -18,7 +18,7 @@ export function HomeScreen() {
   return (
     <div style={{ padding: 16 }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
-        <h1 style={{ fontSize: 18, margin: 0 }}>習熟マップ</h1>
+        <h1 style={{ fontSize: 18, margin: 0 }}>世界史 実績マップ</h1>
         <span style={{ fontSize: 13, color: '#e8622b' }}>🔥 {data.streak.current}</span>
       </div>
 
