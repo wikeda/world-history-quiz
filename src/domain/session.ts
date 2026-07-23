@@ -33,13 +33,20 @@ export function buildChapterSession(
   const unmastered = inChapter.filter((q) => stateOf(prog, q.no) !== 'mastered');
   const mastered = inChapter.filter((q) => stateOf(prog, q.no) === 'mastered');
 
-  // マスターは最終学習が古い順に少量混ぜる（定着確認）
-  const maintainCount = Math.floor(unmastered.length * opts.maintenanceRatio);
-  const maintain = [...mastered]
-    .sort((a, b) => (prog[a.no]?.lastStudiedAt ?? 0) - (prog[b.no]?.lastStudiedAt ?? 0))
-    .slice(0, maintainCount);
+  // 全問マスター済み（100%）なら「もう一度ぜんぶ復習」として全問を対象にする
+  let base: Question[];
+  if (unmastered.length === 0) {
+    base = inChapter;
+  } else {
+    // マスターは最終学習が古い順に少量混ぜる（定着確認）
+    const maintainCount = Math.floor(unmastered.length * opts.maintenanceRatio);
+    const maintain = [...mastered]
+      .sort((a, b) => (prog[a.no]?.lastStudiedAt ?? 0) - (prog[b.no]?.lastStudiedAt ?? 0))
+      .slice(0, maintainCount);
+    base = [...unmastered, ...maintain];
+  }
 
-  let pool = orderQuestions([...unmastered, ...maintain], opts.order, rng);
+  let pool = orderQuestions(base, opts.order, rng);
   if (opts.sessionSize > 0) pool = pool.slice(0, opts.sessionSize);
   return pool;
 }

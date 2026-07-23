@@ -55,6 +55,14 @@ describe('buildChapterSession', () => {
     const s = buildChapterSession(qs, p, 'A', { order: 'random', sessionSize: 0, maintenanceRatio: 0, rng });
     expect(s).toHaveLength(10);
   });
+
+  it('全問マスター済み（100%）なら全問を復習対象にする', () => {
+    const p = prog({ 1: 'mastered', 2: 'mastered', 3: 'mastered', 4: 'mastered', 5: 'mastered',
+      6: 'mastered', 7: 'mastered', 8: 'mastered', 9: 'mastered', 10: 'mastered' });
+    const s = buildChapterSession(qs, p, 'A', { order: 'sequential', sessionSize: 0, maintenanceRatio: 0.2 });
+    expect(s).toHaveLength(10);
+    expect(s.map((q) => q.no)).toEqual([1,2,3,4,5,6,7,8,9,10]);
+  });
 });
 
 describe('buildUnsureSession', () => {
