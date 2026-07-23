@@ -52,6 +52,15 @@ export function AppDataProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => { saveAppData(data); }, [data]);
 
+  useEffect(() => {
+    const root = document.documentElement;
+    const theme = data.settings.theme === 'system'
+      ? (window.matchMedia?.('(prefers-color-scheme: dark)')?.matches ? 'dark' : 'light')
+      : data.settings.theme;
+    root.setAttribute('data-theme', theme);
+    root.style.setProperty('--accent', data.settings.accent);
+  }, [data.settings.theme, data.settings.accent]);
+
   const value = useMemo<Ctx>(() => ({
     data,
     recordAnswer: (no, result) => dispatch({ type: 'answer', no, result }),
