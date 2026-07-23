@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useMemo, useReducer } from 'react';
-import type { AppData, Settings, SwipeResult } from '../domain/types';
+import type { AppData, Settings, SwipeResult, RoundRecord } from '../domain/types';
 import { loadAppData, saveAppData } from '../storage/storage';
 import { applySwipe, initialProgress } from '../domain/mastery';
 import { recordStudyDay, todayStr } from '../domain/streak';
@@ -7,7 +7,8 @@ import { recordStudyDay, todayStr } from '../domain/streak';
 type Action =
   | { type: 'answer'; no: number; result: SwipeResult }
   | { type: 'settings'; patch: Partial<Settings> }
-  | { type: 'replace'; data: AppData };
+  | { type: 'replace'; data: AppData }
+  | { type: 'round'; chapter: string; record: RoundRecord };
 
 function reducer(state: AppData, action: Action): AppData {
   switch (action.type) {
@@ -24,6 +25,13 @@ function reducer(state: AppData, action: Action): AppData {
       return { ...state, settings: { ...state.settings, ...action.patch } };
     case 'replace':
       return action.data;
+    case 'round': {
+      const list = state.chapterRounds[action.chapter] ?? [];
+      return {
+        ...state,
+        chapterRounds: { ...state.chapterRounds, [action.chapter]: [...list, action.record] },
+      };
+    }
     default:
       return state;
   }
@@ -34,6 +42,7 @@ interface Ctx {
   recordAnswer: (no: number, result: SwipeResult) => void;
   updateSettings: (patch: Partial<Settings>) => void;
   replaceData: (data: AppData) => void;
+  recordRound: (chapter: string, record: RoundRecord) => void;
 }
 
 const AppDataCtx = createContext<Ctx | null>(null);
@@ -48,6 +57,7 @@ export function AppDataProvider({ children }: { children: React.ReactNode }) {
     recordAnswer: (no, result) => dispatch({ type: 'answer', no, result }),
     updateSettings: (patch) => dispatch({ type: 'settings', patch }),
     replaceData: (d) => dispatch({ type: 'replace', data: d }),
+    recordRound: (chapter, record) => dispatch({ type: 'round', chapter, record }),
   }), [data]);
 
   return <AppDataCtx.Provider value={value}>{children}</AppDataCtx.Provider>;
