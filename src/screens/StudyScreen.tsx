@@ -1,9 +1,9 @@
 import { useMemo, useRef, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { useQuestions } from '../hooks/useQuestions';
 import { useAppData } from '../state/AppDataContext';
 import { Flashcard } from '../components/Flashcard';
-import { buildChapterSession, buildUnsureSession } from '../domain/session';
+import { buildChapterSession, buildUnsureSession, pickByNumbers } from '../domain/session';
 import { countStates, masteryPct } from '../domain/aggregate';
 import type { SwipeResult, Counts } from '../domain/types';
 
@@ -12,9 +12,14 @@ export function StudyScreen() {
   const questions = useQuestions();
   const { data, recordAnswer, recordRound } = useAppData();
   const navigate = useNavigate();
+  const loc = useLocation();
 
   const session = useMemo(() => {
     const opts = { order: data.settings.order, sessionSize: data.settings.sessionSize };
+    if (mode === 'failed') {
+      const nos = (loc.state as { failedNos?: number[] } | null)?.failedNos ?? [];
+      return pickByNumbers(questions, nos);
+    }
     if (mode === 'unsure') return buildUnsureSession(questions, data.progress, chapter, opts);
     return buildChapterSession(questions, data.progress, chapter, { ...opts, maintenanceRatio: 0.2 });
     // eslint-disable-next-line react-hooks/exhaustive-deps
