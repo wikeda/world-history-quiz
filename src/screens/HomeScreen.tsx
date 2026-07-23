@@ -39,15 +39,17 @@ export function HomeScreen() {
       )}
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 7, marginTop: 14 }}>
-        {chapters.map((c, i) => {
+        {chapters.map((c) => {
           const pct = masteryPct(countStates(questions, data.progress, c));
           const bg = masteryColor(pct);
+          const textColor = pct >= 100 ? '#5a3d00' : pct === 0 ? '#5a6376' : '#fff';
           return (
             <div key={c} onClick={() => nav(`/chapter/${encodeURIComponent(c)}`)}
-              style={{ background: bg, borderRadius: 11, padding: '8px 4px', textAlign: 'center', color: pct >= 26 && pct < 51 ? '#fff' : pct >= 100 ? '#5a3d00' : '#fff', cursor: 'pointer', minHeight: 52 }}>
-              <div style={{ fontSize: 8, opacity: 0.85 }}>{i + 1}</div>
-              <div style={{ fontSize: 15, fontWeight: 800, marginTop: 2 }}>
-                {pct >= 100 ? '🏆' : <>{pct}<span style={{ fontSize: 9, opacity: 0.75 }}>%</span></>}
+              style={{ background: bg, borderRadius: 11, padding: '7px 4px', textAlign: 'center', color: textColor,
+                cursor: 'pointer', minHeight: 56, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+              <div style={{ fontSize: 8.5, lineHeight: 1.15, opacity: 0.95, wordBreak: 'break-word' }}>{c}</div>
+              <div style={{ fontSize: 13, fontWeight: 800, marginTop: 3 }}>
+                {pct >= 100 ? '🏆' : <>{pct}<span style={{ fontSize: 8, opacity: 0.75 }}>%</span></>}
               </div>
             </div>
           );

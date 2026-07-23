@@ -1,6 +1,7 @@
 import { useRef } from 'react';
 import { useAppData } from '../state/AppDataContext';
 import { exportJson, importJson } from '../storage/storage';
+import { defaultAppData } from '../storage/schema';
 import type { Theme, Order, SessionSize } from '../domain/types';
 
 const ACCENTS = ['#3b6cff', '#3f9e5a', '#7a3bff', '#f0993c', '#e5679a', '#20b0b0'];
@@ -27,6 +28,12 @@ export function SettingsScreen() {
       try { replaceData(importJson(t)); alert('進捗を復元しました'); }
       catch { alert('ファイルが不正です'); }
     });
+  }
+  function doReset() {
+    if (window.confirm('学習の進捗をすべてリセットします。この操作は取り消せません。よろしいですか？')) {
+      replaceData(defaultAppData());
+      alert('進捗をリセットしました');
+    }
   }
 
   return (
@@ -69,8 +76,9 @@ export function SettingsScreen() {
       </Section>
 
       <Section title="データ">
-        <div onClick={doExport} style={rowBtn}>★ 進捗をエクスポート（バックアップ）</div>
-        <div onClick={() => fileRef.current?.click()} style={rowBtn}>★ 進捗をインポート（復元）</div>
+        <div onClick={doExport} style={rowBtn}>進捗をエクスポート（バックアップ）</div>
+        <div onClick={() => fileRef.current?.click()} style={rowBtn}>進捗をインポート（復元）</div>
+        <div onClick={doReset} style={{ ...rowBtn, color: '#d23b3b', borderBottom: 'none' }}>進捗をリセット</div>
         <input ref={fileRef} type="file" accept="application/json" hidden onChange={doImport} />
       </Section>
 
