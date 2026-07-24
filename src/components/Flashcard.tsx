@@ -12,8 +12,10 @@ export function Flashcard({ question, onJudge }: Props) {
   const start = useRef<{ x: number; y: number } | null>(null);
   const THRESHOLD = 90;
 
-  // カード切替でリセット
-  useEffect(() => { setReveal(0); setDrag({ x: 0, y: 0 }); }, [question.no]);
+  // 状態リセットは親が問題ごとに key を変えて再マウントすることで行う（StudyScreen 参照）。
+  // effect でリセットすると描画後の実行になり、次の問題の解答が一瞬鮮明に見えてしまう。
+  // さらに filter/opacity のトランジションが「表示→ぼかし」を再生してしまうため、
+  // 新しい要素として作り直すのが正しい。
 
   // キーボード操作（PC）
   useEffect(() => {

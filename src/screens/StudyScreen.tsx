@@ -89,7 +89,8 @@ export function StudyScreen() {
           <span style={{ fontSize: 69, fontWeight: 800, lineHeight: 1, color: 'var(--text)' }}>{idx + 1}</span>
           <span style={{ fontSize: 27, fontWeight: 700, color: 'var(--muted)', marginLeft: 7 }}>/ {session.length}</span>
         </div>
-        <Flashcard question={q} onJudge={judge} />
+        {/* key を問題ごとに変えてカードを作り直す＝解答の表示状態を確実にリセット（一瞬の解答表示を防止） */}
+        <Flashcard key={q.no} question={q} onJudge={judge} />
       </div>
 
       <div style={{ textAlign: 'center', fontSize: 12, color: 'var(--muted)' }}>
