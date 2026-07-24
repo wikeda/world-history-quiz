@@ -74,23 +74,22 @@ export function StudyScreen() {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100dvh', padding: '18px 16px 12px' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
+      <div style={{ display: 'flex', alignItems: 'baseline' }}>
         <button onClick={() => navigate(-1)}
           style={{ border: 'none', background: 'none', color: 'var(--text)', fontSize: 18, fontWeight: 800, padding: 0, cursor: 'pointer' }}>
           <span style={{ color: 'var(--muted)', fontWeight: 400, marginRight: 4 }}>‹</span>{chapter === 'all' ? 'あやふや復習' : chapter}
         </button>
-        <span style={{ fontSize: 17, fontWeight: 800, color: 'var(--text)' }}>
-          {idx + 1}<span style={{ fontSize: 13, fontWeight: 600, color: 'var(--muted)' }}> / {session.length}</span>
-        </span>
       </div>
       <div style={{ height: 6, background: 'var(--border)', borderRadius: 6, marginTop: 12 }}>
         <div style={{ width: `${((idx + 1) / session.length) * 100}%`, height: '100%', background: 'var(--accent)', borderRadius: 6, transition: 'width .2s' }} />
       </div>
 
-      <div style={{ flex: 1, display: 'flex', alignItems: 'center' }}>
-        <div style={{ width: '100%' }}>
-          <Flashcard question={q} onJudge={judge} />
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+        <div style={{ textAlign: 'center', marginBottom: 24 }}>
+          <span style={{ fontSize: 69, fontWeight: 800, lineHeight: 1, color: 'var(--text)' }}>{idx + 1}</span>
+          <span style={{ fontSize: 27, fontWeight: 700, color: 'var(--muted)', marginLeft: 7 }}>/ {session.length}</span>
         </div>
+        <Flashcard question={q} onJudge={judge} />
       </div>
 
       <div style={{ textAlign: 'center', fontSize: 12, color: 'var(--muted)' }}>
